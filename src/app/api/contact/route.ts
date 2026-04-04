@@ -115,24 +115,27 @@ export async function POST(req: Request) {
       );
     }
 
-    // ✅ Create transporter
-    // const transporter = nodemailer.createTransport({
-    //   host: "smtp.gmail.com",
-    //   port: 587,
-    //   secure: false,
-    //   auth: {
-    //     user: process.env.EMAIL_USER,
-    //     pass: process.env.EMAIL_PASS,
-    //   },
-    // });
 
-    const transporter = nodemailer.createTransport({
-  service: "gmail",
+// // gmail transporter
+//     const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: process.env.EMAIL_USER,
+//     pass: process.env.EMAIL_PASS,
+//   },
+// });
+
+//zoho transporter
+const transporter = nodemailer.createTransport({
+  host: "smtp.zoho.com",
+  port: 587,
+  secure: false, // use TLS
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.EMAIL_USER, // your Zoho email
+    pass: process.env.EMAIL_PASS, // your Zoho password (or app password)
   },
 });
+
 
     // 🔍 Verify SMTP connection
     try {
@@ -154,7 +157,7 @@ export async function POST(req: Request) {
       <div style="text-align:center; margin-bottom:20px;"> 
       <img src="https://res.cloudinary.com/deeqakcdx/image/upload/v1774674824/download_usjv3y.png" width="120" />
       </div>
-        <h2 style="color:#4D148C;">Fedex Shipment Update</h2>
+        <h2 style="color:#4D148C;">Shipment Update</h2>
         <p>${message}</p>
 
         <div style="margin-top:20px;">
@@ -166,14 +169,14 @@ export async function POST(req: Request) {
 
         <p>Best Regards,</p>
         <p style="margin-top:30px; font-size:12px; color:#777;">
-          Fedex Deliveries
+          Shipment Update
         </p>
       </div>
     `;
 
     // 📤 Send email
     const info = await transporter.sendMail({
-      from: `"Fedex Deliveries" <${process.env.EMAIL_USER}>`,
+      from: `"Shipment Update" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Shipment Update",
       html: htmlTemplate,
