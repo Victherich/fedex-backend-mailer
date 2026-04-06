@@ -81,7 +81,7 @@ export async function POST(req: Request) {
       <div style="font-family: Arial; padding:20px;">
       <!-- LOGO --> 
       <div style="text-align:center; margin-bottom:20px;"> 
-      <img src="https://res.cloudinary.com/deeqakcdx/image/upload/v1774674824/download_usjv3y.png" width="120" />
+      <img src="https://res.cloudinary.com/deeqakcdx/image/upload/v1774944278/bdwi9aptp2dhe4q0ud73.jpg" width="120" />
       </div>
         <h2 style="color:#4D148C;">Shipment Update</h2>
         <p>${message}</p>
