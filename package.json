@@ -10,13 +10,18 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
+    "@getbrevo/brevo": "^5.0.3",
+    "@sendgrid/mail": "^8.1.6",
     "cors": "^2.8.5",
     "firebase": "^11.6.0",
+    "mailblock": "^2.0.0",
+    "mailersend": "^2.7.0",
     "next": "15.3.8",
     "nodemailer": "^7.0.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
+    "resend": "^6.10.0",
     "sweetalert2": "^11.19.1",
     "sweetalert2-react-content": "^5.1.0",
     "twilio": "^5.7.1"

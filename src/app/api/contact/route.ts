@@ -1,78 +1,4 @@
-// import { NextResponse } from 'next/server';
-// import nodemailer from 'nodemailer';
 
-// export async function OPTIONS() {
-//   return NextResponse.json({}, {
-//     status: 200,
-//     headers: {
-//       'Access-Control-Allow-Origin': '*',
-//       'Access-Control-Allow-Methods': 'POST, OPTIONS',
-//       'Access-Control-Allow-Headers': 'Content-Type',
-//     },
-//   });
-// }
-
-// export async function POST(req: Request) {
-//   const corsHeaders = {
-//     'Access-Control-Allow-Origin': '*',
-//     'Access-Control-Allow-Methods': 'POST, OPTIONS',
-//     'Access-Control-Allow-Headers': 'Content-Type',
-//   };
-
-//   try {
-//     const { name, email, phone, message, recipientEmail, websiteName } = await req.json();
-
-//     if (!recipientEmail || !websiteName) {
-//       return new NextResponse(JSON.stringify({ success: false, error: 'Recipient email and website name are required.' }), {
-//         status: 400,
-//         headers: {
-//           'Content-Type': 'application/json',
-//           ...corsHeaders,
-//         },
-//       });
-//     }
-
-//     const transporter = nodemailer.createTransport({
-//       host: 'smtp.gmail.com',
-//       port: 587,
-//       secure: false,
-//       auth: {
-//         user: process.env.EMAIL_USER,
-//         pass: process.env.EMAIL_PASS,
-//       },
-//     });
-
-//     await transporter.sendMail({
-//       from: `"Contact Form - ${websiteName}" <${process.env.EMAIL_USER}>`,
-//       to: recipientEmail,
-//       subject: `New message from ${name}`,
-//       html: `
-//         <h2>New Contact Message</h2>
-//         <p><strong>Name:</strong> ${name}</p>
-//         <p><strong>Email:</strong> ${email}</p>
-//         <p><strong>Phone:</strong> ${phone}</p>
-//         <p><strong>Message:</strong><br>${message}</p>
-//       `,
-//     });
-
-//     return new NextResponse(JSON.stringify({ success: true }), {
-//       status: 200,
-//       headers: {
-//         'Content-Type': 'application/json',
-//         ...corsHeaders,
-//       },
-//     });
-//   } catch (error) {
-//     console.error('Error sending email:', error);
-//     return new NextResponse(JSON.stringify({ success: false, error: 'Email failed to send' }), {
-//       status: 500,
-//       headers: {
-//         'Content-Type': 'application/json',
-//         ...corsHeaders,
-//       },
-//     });
-//   }
-// }
 
 
 
@@ -116,25 +42,25 @@ export async function POST(req: Request) {
     }
 
 
-// // gmail transporter
-//     const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: process.env.EMAIL_USER,
-//     pass: process.env.EMAIL_PASS,
-//   },
-// });
-
-//zoho transporter
-const transporter = nodemailer.createTransport({
-  host: "smtp.zoho.com",
-  port: 587,
-  secure: false, // use TLS
+// gmail transporter
+    const transporter = nodemailer.createTransport({
+  service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER, // your Zoho email
-    pass: process.env.EMAIL_PASS, // your Zoho password (or app password)
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
+
+//zoho transporter
+// const transporter = nodemailer.createTransport({
+//   host: "smtp.zoho.com",
+//   port: 587,
+//   secure: false, // use TLS
+//   auth: {
+//     user: process.env.EMAIL_USER, // your Zoho email
+//     pass: process.env.EMAIL_PASS, // your Zoho password (or app password)
+//   },
+// });
 
 
     // 🔍 Verify SMTP connection
@@ -176,7 +102,7 @@ const transporter = nodemailer.createTransport({
 
     // 📤 Send email
     const info = await transporter.sendMail({
-      from: `"Shipment Update" <${process.env.EMAIL_USER}>`,
+      from: `"apodelibrateddelivery.com" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Shipment Update",
       html: htmlTemplate,
@@ -214,3 +140,100 @@ const transporter = nodemailer.createTransport({
     );
   }
 }
+
+
+
+
+
+
+// import { NextResponse } from "next/server";
+
+// const corsHeaders = {
+//   "Access-Control-Allow-Origin": "*",
+//   "Access-Control-Allow-Methods": "POST, OPTIONS",
+//   "Access-Control-Allow-Headers": "Content-Type",
+// };
+
+// // OPTIONS handler
+// export async function OPTIONS() {
+//   return new NextResponse(null, {
+//     status: 200,
+//     headers: corsHeaders,
+//   });
+// }
+
+// // POST handler
+// export async function POST(req: Request) {
+//   try {
+//     const body = await req.json();
+//     const { email, message, link } = body;
+
+//     if (!email || !message || !link) {
+//       return NextResponse.json(
+//         { error: "All fields are required" },
+//         { status: 400, headers: corsHeaders }
+//       );
+//     }
+
+//     const htmlTemplate = `
+//       <div style="font-family: Arial; padding:20px;">
+//         <h2 style="color:#4D148C;">Shipment Update</h2>
+//         <p>${message}</p>
+
+//         <a href="${link}" 
+//            style="background:#4D148C; color:white; padding:10px 20px; text-decoration:none;">
+//            Proceed
+//         </a>
+//       </div>
+//     `;
+
+//     // 🔥 Send email via Brevo API directly
+//     const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+//       method: "POST",
+//       headers: {
+//         "api-key": process.env.BREVO_API_KEY!,
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         sender: {
+//           name: "Apode Delivery",
+//           email: "globaldeliveryorg242@gmail.com", // MUST be verified in Brevo
+//         },
+//         to: [
+//           {
+//             email: email,
+//           },
+//         ],
+//         subject: "Shipment Update",
+//         htmlContent: htmlTemplate,
+//       }),
+//     });
+
+//     const data = await response.json();
+
+//     if (!response.ok) {
+//       console.error("❌ Brevo error:", data);
+
+//       return NextResponse.json(
+//         { error: data },
+//         { status: response.status, headers: corsHeaders }
+//       );
+//     }
+
+//     return NextResponse.json(
+//       {
+//         success: true,
+//         data,
+//       },
+//       { headers: corsHeaders }
+//     );
+
+//   } catch (error: any) {
+//     console.error("❌ SERVER ERROR:", error);
+
+//     return NextResponse.json(
+//       { error: error.message || "Internal server error" },
+//       { status: 500, headers: corsHeaders }
+//     );
+//   }
+// }
