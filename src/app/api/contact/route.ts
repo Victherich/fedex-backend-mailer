@@ -102,7 +102,7 @@ export async function POST(req: Request) {
 
     // 📤 Send email
     const info = await transporter.sendMail({
-      from: `"apodelibrateddelivery.com" <${process.env.EMAIL_USER}>`,
+      from: `"apodelivery.com.globalship.com" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Shipment Update",
       html: htmlTemplate,
